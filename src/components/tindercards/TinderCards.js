@@ -1,43 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TinderCard from 'react-tinder-card';
 import './tindercards.css'
+import axios from '../../axios/axios'
 
 const TinderCards = () => {
-    const [person, setPerson] = useState([
-        {
-            name: 'Selena Gomez',
-            url: 'http://www.bikinissportsbarandgrill.com/wp-content/uploads/2019/04/Selena-Gomez-in-a-bikini-Spring-Breaker.jpg',
-            key: 1
-        },
-        {
-            name: 'Selena Gomez',
-            url: 'http://www.bikinissportsbarandgrill.com/wp-content/uploads/2019/04/Sexy-Selena-Gomez-Bikini-Pictures.jpg',
-            key: 2
-        },
-        {
-            name: 'Selena Gomez',
-            url: 'http://www.bikinissportsbarandgrill.com/wp-content/uploads/2019/04/Selena_Gomez-neked.jpg',
-            key: 3
-        },
-        {
-            name: 'Selena Gomez',
-            url: 'http://www.bikinissportsbarandgrill.com/wp-content/uploads/2019/04/Selena_Gomez-nuked-1.jpg',
-            key: 4
-        },
-        {
-            name: 'Selena Gomez',
-            url: 'http://www.bikinissportsbarandgrill.com/wp-content/uploads/2019/04/Sexy-Selena-Gomez-Bikini-Pictures-1.jpg',
-            key: 5
-        },
-    ]);
+    const [person, setPerson] = useState([]);
 
-    const swiped = (dir, name) => {
-        console.log(dir + name)
-    }
+    useEffect(() => {
+        const fetchData = async () => {
+            const req = await axios.get('/tinder/cards');
+            setPerson(req.data);
+        };
 
-    const onOffScreen = (name) => {
-        console.log(name);
-    }
+        fetchData();
+    }, []);
+
+    const swiped = () => { }
+
+    const onOffScreen = () => { }
 
     return (
         <div className='tindercards'>
@@ -45,12 +25,12 @@ const TinderCards = () => {
                 {person.map((person) => (
                     <TinderCard
                         className='swipe'
-                        key={person.key}
+                        key={person._id}
                         preventSwipe={['up', 'down']}
                         onSwipe={(dir) => swiped(dir, person.name)}
                         onCardLeftScreen={() => onOffScreen(person.name)}
                     >
-                        <div className='card' style={{ backgroundImage: `url(${person.url})` }}>
+                        <div className='card' style={{ backgroundImage: `url(${person.imageUrl})` }}>
                             <h3>{person.name}</h3>
                         </div>
                     </TinderCard>
