@@ -26,3 +26,9 @@
     margin: 10px;
     color: #fff;
 }
+
+@media(max-width: 768px) {
+    .card {
+        height: 50vh;
+    }
+}
